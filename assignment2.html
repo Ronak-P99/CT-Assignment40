@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Countdown Timer</title>
+</head>
+<body>
+    <input type="number" id="timeInput" placeholder="Enter time in seconds">
+    <button id="startButton">Start</button>
+    <div id="timerDisplay">00:00:00</div>
+
+
+    <script defer>
+
+        let timeRemaining = 0;
+        let timerInterval;
+        let notiInterval;
+
+        document.getElementById("startButton").addEventListener("click", startTimer);
+
+        function startTimer() {
+            timeRemaining = parseInt(document.getElementById("timeInput").value) * 1000; // Convert to milliseconds
+
+            if (isNaN(timeRemaining) || timeRemaining <= 0) {
+                alert("Please enter a valid time in seconds.");
+                return;
+            }
+
+            document.getElementById("timerDisplay").innerText = formatTime(timeRemaining);
+
+            timerInterval = setInterval(() => {
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById("timerDisplay").innerText = "Time's up!";
+                } else {
+                    timeRemaining -= 1000; // Decrement by 1000 milliseconds (1 second)
+                    document.getElementById("timerDisplay").innerText = formatTime(timeRemaining);
+                }
+
+
+            }, 100);
+        }
+
+        function formatTime(milliseconds) {
+            const totalSeconds = Math.floor(milliseconds / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const remainingSeconds = totalSeconds % 60;
+            const remainingMilliseconds = milliseconds % 1000;
+            const seconds = Math.floor(remainingMilliseconds / 10); // Convert milliseconds to seconds
+
+            const formattedTime = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            return formattedTime;
+        }
+
+
+        setTimeout(function() {
+            console.log("Still There?");
+        }, 5000);
+
+        setInterval(function() {
+            const waitMessageElement = document.getElementById("waitMessage");
+            if (waitMessageElement) {
+                waitMessageElement.innerText = "wait for it... Done!";
+            }
+            console.log("Wait for it...");
+            }, 500);
+    </script>
+</body>
+</html>
